@@ -178,3 +178,24 @@ snippet lc
 	logger.critical(${1:msg})
 snippet li
 	logger.info(${1:msg})
+# add fixed abs project root when writing scripts
+snippet project_root project_root
+	#!!----------------< Add Project Root In sys.path >----------------------
+	import os
+	import sys
+	import inspect
+	encoding = sys.getfilesystemencoding()
+	__modulepath__ = unicode(inspect.currentframe().f_code.co_filename, encoding)
+	# replace rsplit depth if needed, 1 for current dir
+	__project_root =  os.path.abspath(__modulepath__).rsplit(os.path.sep, ${1:1})[0]
+	print __project_root
+	if sys.path[0] != __project_root:
+		sys.path.insert(0, __project_root)
+	#------------------< Add Project Root Finished >------------------------!!
+snippet default_encoding
+	import sys
+	reload(sys)
+	sys.setdefaultencoding('utf-8')
+snippet timeit
+	import timeit
+	print(timeit.timeit("${1:test()}", setup="${2:from __main__ import test}"))
